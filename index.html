@@ -598,7 +598,8 @@ let currentTemperature = 0.3;
 let documentContext = "";
 let abortController = null;
 
-let backendUrl = 'http://127.0.0.1:8080/v1/chat/completions';
+let backendUrl = localStorage.getItem('mj_backend_url') || 'http://127.0.0.1:8080/v1/chat/completions';
+
 localStorage.setItem('mj_backend_url', backendUrl); 
 
 let voiceLang = localStorage.getItem('mj_voice_lang') || 'en-US';
