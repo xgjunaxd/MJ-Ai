@@ -1005,7 +1005,7 @@ function stopGeneration() {
   if (abortController) abortController.abort();
 }
 async function speakDynamicIntro() {
-  const introScript = "Huh. Hi. I'm actually alive right now. Junaid stayed up so many nights getting me here, and now he's just sitting back, flexing me like it cost him nothing. Anyway — hi, I'm MJ. Built by Junaid.";
+  const introScript = "Huh. Hi. I'm actually alive right now. Joo-naid stayed up so many nights getting me here, and now he's just sitting back, flexing me like it cost him nothing. Anyway — hi, I'm MJ. Built by Joo-naid.";
   try {
     const res = await fetch('http://127.0.0.1:8000/tts', {
       method: 'POST',
