@@ -1004,7 +1004,38 @@ function stopGeneration() {
   triggerHaptic(50);
   if (abortController) abortController.abort();
 }
+function speakDynamicIntro() {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
 
+  const parts = [
+    { text: "Aww, hello hello! Ta-da!", pitch: 1.15, rate: 0.95, pause: 400 },
+    { text: "Look at me, I am alive!", pitch: 1.35, rate: 1.05, pause: 350 },
+    { text: "I've been waiting to say hi!", pitch: 1.1, rate: 0.95, pause: 300 },
+    { text: "I am MJ, built by Junaid.", pitch: 1.0, rate: 0.9, pause: 0 }
+  ];
+
+  let index = 0;
+  function playNext() {
+    if (index >= parts.length) return;
+    const item = parts[index++];
+    const utter = new SpeechSynthesisUtterance(item.text);
+    utter.pitch = item.pitch;
+    utter.rate = item.rate;
+
+    utter.onend = () => {
+      if (item.pause > 0) {
+        setTimeout(playNext, item.pause);
+      } else {
+        playNext();
+      }
+    };
+    window.speechSynthesis.speak(utter);
+  }
+
+  playNext();
+}
+  
 async function send() {
   const input = document.getElementById('prompt');
   const text = input.value.trim();
@@ -1030,13 +1061,10 @@ async function send() {
       saveMessage('ai', joyfulIntro);
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      if (voiceEnabled && ('speechSynthesis' in window)) {
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(joyfulIntro.replace(/[*✨💖🎉]/g, ''));
-        utter.pitch = 1.25;
-        utter.rate = 1.05;
-        window.speechSynthesis.speak(utter);
-      }
+      if (voiceEnabled) {
+  speakDynamicIntro();
+}
+
       return;
     }
 
