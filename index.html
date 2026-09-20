@@ -1103,7 +1103,7 @@ async function requestAIResponse() {
     const reader = response.body.getReader();
     const decoder = new TextDecoder("utf-8");
 
-    while (true) {
+        while (true) {
       const { done, value } = await reader.read();
       if (done) break;
       const chunk = decoder.decode(value);
@@ -1117,19 +1117,17 @@ async function requestAIResponse() {
               rawContent += token;
               msgDiv.innerHTML = formatMarkdown(rawContent);
               chatBox.scrollTop = chatBox.scrollHeight;
-              sentenceBuffer += token;
-              const match = sentenceBuffer.match(/^[^.!?]*[.!?]/);
-              if (match) {
-                speakText(match[0]);
-                sentenceBuffer = sentenceBuffer.substring(match[0].length).trimStart();
-              }
             }
           } catch(e) {}
         }
       }
     }
 
-    if (sentenceBuffer.trim()) speakText(sentenceBuffer);
+    // Speak cleanly once the entire response has loaded without freezing the UI
+    if (rawContent.trim()) {
+      speakText(rawContent);
+    }
+    
     if (rawContent.trim()) {
       saveMessage('ai', rawContent);
       document.getElementById('actions-' + msgId).style.display = 'flex';
