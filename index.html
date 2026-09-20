@@ -1109,8 +1109,9 @@ async function requestAIResponse() {
       { role: "system", content: systemPrompt + documentContext },
       ...currentChat.messages.slice(-10).map(m => ({ role: m.role === 'ai' ? 'assistant' : 'user', content: m.content }))
     ];
+    
+      const response = await fetch('https://suited-norm-greatest-besides.trycloudflare.com/v1/chat/completions', {
 
-    const response = await fetch(backendUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
