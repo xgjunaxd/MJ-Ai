@@ -1005,7 +1005,7 @@ function stopGeneration() {
   if (abortController) abortController.abort();
 }
 async function speakDynamicIntro() {
-  const introScript = "Aww, hello hello! Ta-da! Look at me, I'm alive! I've been waiting to say hi! I'm MJ, built by Junaid.";
+  const introScript = "Awwwwwwu, hello!! Look at me, I'm alive! I've been waiting to say hi! I'm MJ, built by Junaid.";
   
   try {
     const res = await fetch('http://127.0.0.1:8000/tts', {
@@ -1047,7 +1047,7 @@ async function send() {
 
       const normalized = text.toLowerCase();
     if (normalized.includes("meet my mj") || normalized.includes("meat my mj")) {
-        const joyfulIntro = "Awwwwwwwwu, hello !! ✨ Look at me, I'm alive! I've been waiting to say hi! I'm MJ, built by Junaid.";
+        const joyfulIntro = "Aww, hello !! ✨ Look at me, I'm alive! I've been waiting to say hi! I'm MJ, built by Junaid.";
      chatBox.innerHTML += buildMsgHTML('ai', joyfulIntro, false);
       saveMessage('ai', joyfulIntro);
       chatBox.scrollTop = chatBox.scrollHeight;
