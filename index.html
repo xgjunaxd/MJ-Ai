@@ -1022,7 +1022,26 @@ async function send() {
   saveMessage('user', text);
   input.value = '';
 
-  await requestAIResponse();
+      const normalized = text.toLowerCase();
+    if (normalized.includes("meet my mj") || normalized.includes("meat my mj")) {
+      const joyfulIntro = "Aww, hello hello! Ta-da! ✨ Look at me, I’m alive! I’ve been waiting to say hi! I'm MJ — Junaid's private pocket genius, built right here with lots of love. I'm super thrilled to meet all of you, always happy, and always ready to chat! Give me your toughest questions, what exciting puzzle are we solving today?";
+      
+      chatBox.innerHTML += buildMsgHTML('ai', joyfulIntro, false);
+      saveMessage('ai', joyfulIntro);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      if (voiceEnabled && ('speechSynthesis' in window)) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(joyfulIntro.replace(/[*✨💖🎉]/g, ''));
+        utter.pitch = 1.25;
+        utter.rate = 1.05;
+        window.speechSynthesis.speak(utter);
+      }
+      return;
+    }
+
+    await requestAIResponse();
+  
 }
 
 function regenerateResponse(btn) {
