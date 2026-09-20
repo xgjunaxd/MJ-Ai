@@ -1143,8 +1143,13 @@ async function requestAIResponse() {
     }
 
     // Speak cleanly once the entire response has loaded without freezing the UI
-    if (rawContent.trim()) {
-      speakText(rawContent);
+    if (voiceEnabled && ('speechSynthesis' in window) && rawContent.trim()) {
+  window.speechSynthesis.cancel();
+  const cleanVoiceText = rawContent.replace(/[*#`_]/g, '');
+  const utter = new SpeechSynthesisUtterance(cleanVoiceText);
+  utter.pitch = 1.0;
+  utter.rate = 1.0;
+  window.speechSynthesis.speak(utter);
     }
     
     if (rawContent.trim()) {
